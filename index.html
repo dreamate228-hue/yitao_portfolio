@@ -268,6 +268,7 @@
 
     /* Awards Carousel */
     .awards-section { width: 100%; max-width: 1100px; margin-top: 3rem; }
+    .awards-vertical { display: none; }
     .awards-title {
       font-size: 0.85rem;
       color: rgba(255, 255, 255, 0.4);
@@ -374,6 +375,7 @@
 
     /* Project Cards Carousel */
     .projects-carousel { width: 100%; max-width: 1100px; position: relative; }
+    .projects-vertical { display: none; }
     .projects-carousel-inner { position: relative; }
     .projects-carousel-inner::before, .projects-carousel-inner::after {
       content: '';
@@ -516,11 +518,14 @@
     .works-header p { color: rgba(255, 255, 255, 0.5); line-height: 1.6; }
     .works-images { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 2rem; }
     .works-images img { width: 100%; border-radius: 12px; cursor: pointer; transition: transform 0.3s; }
+    .img-fullscreen { display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(0, 0, 0, 0.95); padding: 20px; cursor: pointer; }
+    .img-fullscreen img { max-width: 100%; max-height: 100%; object-fit: contain; margin: auto; display: block; }
+    .img-fullscreen.active { display: flex; align-items: center; justify-content: center; }
     .works-images img:hover { transform: scale(1.01); }
 
     /* Markdown Pages */
     .md-content {
-      max-width: 800px;
+      max-width: 1200px;
       width: 100%;
       padding: 80px 40px 60px;
       margin: 0 auto;
@@ -558,6 +563,18 @@
       background: linear-gradient(90deg, transparent, var(--neon-blue), var(--neon-pink), transparent);
       margin: 2.5rem 0;
     }
+    .link-purple {
+      color: #B388FF;
+      text-decoration: underline;
+    }
+    .link-purple:hover {
+      color: #E1A4FF;
+    }
+    .resume-subtitle {
+      font-size: 16px;
+      font-weight: bold;
+      color: rgb(172, 199, 245);
+    }
 
     .resume-header { position: relative; }
     .resume-header .btn-download { position: absolute; top: 20px; right: 0; }
@@ -572,14 +589,119 @@
       .works-content { margin-left: 0; }
       .project-card { min-width: 500px; }
     }
-    @media (max-width: 600px) {
-      .nav { gap: 1rem; padding: 0.8rem 1rem; }
-      .nav a { font-size: 0.75rem; padding: 0.4rem 0.8rem; }
-      .section { padding: 5rem 1rem 3rem; }
-      .skills-grid { grid-template-columns: repeat(3, 1fr); }
-      .award-card { min-width: 260px; }
-      .project-card { min-width: 320px; }
-      .contact-content { flex-direction: column; gap: 2rem; }
+    @media (max-width: 768px) {
+      /* Navigation - fixed position, back to horizontal */
+      .nav { justify-content: center; }
+      .nav-center { position: static; transform: none; flex-wrap: nowrap; }
+      .nav-center a { white-space: nowrap; }
+
+      /* Works tabs - below nav, simple buttons */
+      .works-tabs { display: none; position: fixed; top: 69px; left: 0; right: 0; z-index: 99; background: rgba(5, 5, 16, 0.6); backdrop-filter: blur(20px); padding: 0.5rem 1rem; gap: 0.5rem; overflow-x: auto; -webkit-overflow-scrolling: touch; justify-content: center; }
+      .works-tab { background: transparent; border: none; color: rgba(255, 255, 255, 0.5); font-size: 0.7rem; padding: 0.4rem 0.8rem; border-radius: 20px; transition: all 0.3s; white-space: nowrap; cursor: pointer; }
+      .works-tab.active { color: #fff; background: rgba(172, 199, 245, 0.15); }
+
+    .floating-contact { display: none; }
+
+      /* Floating contact button - with glow effect */
+      .floating-contact { display: flex !important; position: fixed; bottom: 2rem; right: 1.5rem; z-index: 101; width: 50px; height: 50px; border-radius: 50%; background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); align-items: center; justify-content: center; cursor: pointer; overflow: hidden; }
+      .floating-contact::before { content: ''; position: absolute; inset: -50%; width: 200%; height: 200%; background: conic-gradient(from 0deg, transparent 0deg, rgba(125, 211, 252, 0.4) 60deg, rgba(167, 139, 250, 0.4) 120deg, transparent 180deg, rgba(244, 114, 182, 0.4) 240deg, transparent 360deg); animation: btnRotate 4s linear infinite; filter: blur(8px); }
+      .floating-contact img { width: 24px; height: 24px; position: relative; z-index: 1; }
+
+      /* Section padding */
+      .section { padding: 6.5rem 1rem 2rem; }
+
+      /* Title */
+      .screen-1 { padding-top: 70px; }
+      .title-main { font-size: 32px !important; line-height: 2 !important; margin-bottom: 1.5rem; }
+      .title-main br { display: block !important; }
+
+      /* Buttons - horizontal, no wrap, glow effect only for specific buttons */
+      .btn-group { flex-direction: row !important; justify-content: center; gap: 1rem; flex-wrap: nowrap; }
+      .btn { padding: 0.8rem 1.5rem; font-size: 0.9rem; width: auto !important; max-width: none !important; white-space: nowrap; }
+      .btn:not(.btn-no-glow)::before { opacity: 1 !important; animation: btnRotate 4s linear infinite; }
+      .btn:not(.btn-no-glow)::after { opacity: 1 !important; }
+      .btn:hover { transform: translateY(-2px); }
+
+      /* About section */
+      .about-content { grid-template-columns: 1fr !important; gap: 1.5rem; }
+      .info-left { width: 100% !important; }
+      .info-block { padding: 1rem; word-wrap: break-word; overflow-wrap: break-word; }
+      .info-block h3 { font-size: 0.9rem; margin-bottom: 0.75rem; }
+      .info-block p, .info-block li { font-size: 12px !important; line-height: 1.6; word-wrap: break-word; overflow-wrap: break-word; }
+      .info-block ul { padding-left: 0; }
+      .info-block li { word-wrap: break-word; overflow-wrap: break-word; white-space: normal; }
+      .exp-portrait { width: 200px !important; height: 250px !important; margin: 0 auto; }
+      .exp-item .exp-text { -webkit-line-clamp: unset; display: block; }
+
+      /* Awards - vertical stack, no carousel */
+      .awards-section { margin-top: 2rem; }
+      .awards-carousel-inner { display: none; }
+      .awards-vertical { display: flex !important; flex-direction: column; gap: 0.75rem; width: 100%; }
+      .award-card { min-width: unset !important; width: 100%; padding: 0.75rem 1rem; }
+      .award-card h4 { font-size: 0.85rem; }
+      .award-card p { font-size: 0.75rem; }
+      .awards-title { font-size: 0.75rem; margin-bottom: 1rem; }
+
+      /* Skills - 3 per row, more even spacing */
+      .skills-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 0.75rem !important; padding: 0 1rem; }
+      .skill-card { padding: 1rem 0.5rem; display: flex; flex-direction: column; align-items: center; }
+      .skill-card img { width: 36px; height: 36px; margin-bottom: 0.5rem; }
+      .skill-card span { font-size: 0.7rem; }
+      .skill-card .tooltip { display: none !important; }
+
+      /* Projects - vertical stack, no carousel, no overlay, entire card clickable */
+      .projects-carousel { padding: 0; }
+      .projects-carousel-inner { display: none; }
+      .projects-vertical { display: flex !important; flex-direction: column; gap: 1rem; width: 100%; padding: 0 1rem; }
+      .project-card { min-width: unset !important; width: 100%; aspect-ratio: 16/9; cursor: pointer; }
+      .project-card img { display: block; }
+      .project-overlay { display: none; }
+      .project-card:active { opacity: 0.9; }
+
+      /* Contact */
+      .contact-content { flex-direction: column !important; align-items: center; gap: 1.5rem; text-align: center; }
+      .contact-info { align-items: center; gap: 0.75rem; }
+      .contact-info p { font-size: 0.9rem; }
+      .qr-code img { width: 80px; }
+
+      /* Works page - hide old sidebar */
+      .works-nav { display: none !important; }
+      .works-layout { justify-content: center; }
+      .works-content { padding: 140px 20px 40px !important; max-width: 100% !important; }
+      .works-header h2 { font-size: 1.25rem; }
+      .works-header p { font-size: 0.85rem; }
+      .works-images { gap: 1rem; }
+
+      /* MD content */
+      .md-content { padding: 5rem 20px 40px !important; max-width: 100% !important; }
+      .md-content h1 { font-size: 1.5rem; margin-bottom: 1.5rem; }
+      .md-content h2 { font-size: 1.1rem; margin: 1.5rem 0 0.75rem; }
+      .md-content h3 { font-size: 0.95rem; }
+      .md-content p { font-size: 13px; line-height: 1.7; word-wrap: break-word; }
+      .md-content li { font-size: 13px; line-height: 1.7; word-wrap: break-word; }
+      .md-content img { margin: 1rem 0; width: 100%; height: auto; }
+
+      /* Resume page */
+      .resume-header { text-align: center; }
+      .resume-header .btn-download { position: static; margin-bottom: 1rem; width: 100%; max-width: 280px; }
+      .resume-header .title-row { flex-direction: column; align-items: center; gap: 0.5rem; }
+      .resume-subtitle { font-size: 14px !important; word-wrap: break-word; }
+      .resume-header h1 { font-size: 1.5rem; }
+
+      /* Divider */
+      .divider { margin: 1.5rem 0; }
+
+      /* Reduce canvas effects on mobile for performance */
+      #flowCanvas { opacity: 0.3; }
+      #dotCanvas { opacity: 0.2; }
+
+      /* Mobile image fullscreen */
+      .img-fullscreen { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      .title-main { font-size: 26px !important; }
+      .skills-grid { grid-template-columns: repeat(3, 1fr) !important; }
     }
   </style>
 </head>
@@ -594,8 +716,16 @@
           <a href="#" data-page="notes">沉淀小记</a>
           <a href="#" data-page="resume">我的简历</a>
         </div>
-        <button class="btn-nav-contact" onclick="goHomeAndScroll()">联系我</button>
       </nav>
+      <div class="works-tabs" id="worksTabs">
+        <button class="works-tab active" data-project="0">网易知数</button>
+        <button class="works-tab" data-project="1">金保通</button>
+        <button class="works-tab" data-project="2">小米钱包加油</button>
+      </div>
+      <div class="floating-contact" onclick="goHomeAndScroll()">
+        <img src="移动端/Mail (邮件).svg" alt="联系我">
+      </div>
+      <div class="img-fullscreen" id="imgFullscreen" onclick="closeFullscreen()"><img src="" alt=""></div>
 
   <div id="homePage" class="page active">
     <section class="section screen-1">
@@ -605,7 +735,7 @@
         可以认识一下吗？
       </h1>
       <div class="btn-group">
-        <button class="btn" onclick="scrollToSection(2)"><span>开始了解↓</span></button>
+        <button class="btn btn-no-glow" onclick="scrollToSection(2)"><span>开始了解↓</span></button>
         <button class="btn" onclick="downloadPDF('作品集_UIUX_蒋翊涛_19357629233.pdf')"><span>直接获取PDF！</span></button>
       </div>
     </section>
@@ -647,6 +777,7 @@
             <div class="awards-infinite" id="awardsCarousel"></div>
           </div>
         </div>
+        <div class="awards-vertical" id="awardsVertical"></div>
       </div>
     </section>
 
@@ -663,6 +794,7 @@
             <div class="projects-infinite" id="projectCarousel"></div>
           </div>
         </div>
+        <div class="projects-vertical" id="projectsVertical"></div>
       </div>
     </section>
 
@@ -677,7 +809,7 @@
           <img src="vxma.png" alt="WeChat QR Code">
         </div>
       </div>
-      <button class="btn" onclick="scrollToSection(1)"><span>返回顶部↑</span></button>
+      <button class="btn btn-no-glow" onclick="scrollToSection(1)"><span>返回顶部↑</span></button>
     </section>
   </div>
 
@@ -700,8 +832,16 @@
       <p>实习工作饱满而丰富，除几个核心项目外，我还沉淀了多项设计自驱与设计分享的内容，即便作为暂时的一份子，也希望我的工作能为团队带来价值。以下所有内容均以飞书文档形式备于设计知识库中或以设计文件形式保存于Figma团队中。</p>
       <img src="沉淀小记/实习复盘.jpg" alt="实习复盘">
       <div class="divider"></div>
+      <h2>AI coding 微动效探索</h2>
+      <p>网易实习末期，我已经自主学习并掌握了基础的 Vibe coding 能力。恰逢「知数」各版本交互微动效常因开发人天不足被搁置，我们决定通过借助 AI 能力，重拾这些被认为优先级"低"但又切实影响产品整体质感的部分。经过探索，平均 3 小时可完成一套复杂微动效，并沉淀了通用 SOP 用于后续其他场景，大致流程如下</p>
+      <img src="沉淀小记/微动效1.jpg" alt="微动效1">
+      <div class="divider"></div>
+      <h2>知数 AI微动效成果</h2>
+      <p>通过上述制作流程，零代码基础的设计师也能将业务页面充分还原，连带最符合预期的产品动效一并交付给前端。我将以 "知数首页 to 内页微动效" 为例，展示 AI coding 的强大性能（具体演示可点击跳转：<a href="沉淀小记/首页to内页.html" class="link-purple" target="_blank">首页to内页</a>、<a href="沉淀小记/数据预览表格.html" class="link-purple" target="_blank">数据预览表格</a>）</p>
+      <img src="沉淀小记/微动效2.jpg" alt="微动效2">
+      <div class="divider"></div>
       <h2>拥抱AIGC</h2>
-      <p>AIGC对于设计师来说不仅仅是效率的提升，我依旧保持"质量>效率"的准则，凭借AI的出色表现可以探索更多的设计风格，当建模与渲染的时间被节约，可以有更多时间去考虑产品的交互与体验。</p>
+      <p>AIGC对于设计师来说不仅仅是效率的提升，我依旧保持"质量>效率"的准则，凭借AI的出色表现可以探索更多的设计风格，当建模与渲染的时间被节约，可以有更多时间去考虑产品的交互与体验。下列练习作品在探索AIGC元素的同时，同样将每个细节进行合理把控，共同联动输出优质设计表现。</p>
       <img src="沉淀小记/拥抱AIGC.jpg" alt="拥抱AIGC">
     </div>
   </div>
@@ -719,41 +859,46 @@
       </div>
       <div class="divider"></div>
       <h2>教育情况</h2>
-      <p>浙江科技大学-本科 丨 工业设计<br>
-      专业表现：专业课平均绩点3.98，专业排名前10%；加入【和山工作室】，参与10余次智能硬件的交互设计，20余次竞赛版式设计<br>
+      <p class="resume-subtitle">浙江科技大学-本科 丨 工业设计</p>
+      <p>专业表现：专业课平均绩点3.98，专业排名前10%；加入【和山工作室】，参与10余次智能硬件的交互设计，20余次竞赛版式设计<br>
       荣誉奖项：第17届全国大学生广告艺术大赛-UI类国一、2024建行杯国际大学生创新大赛-国银、第19届国际五金工业设计大赛-银创奖...</p>
       <div class="divider"></div>
       <h2>实习经历</h2>
-      <h3>网易（杭州）网络有限公司-智企事业群丨交互设计实习生</h3>
+      <h3 class="resume-subtitle">网易（杭州）网络有限公司-智企事业群丨交互设计实习生</h3>
       <ul>
-        <li>需求沟通：参与有数BI+知数的4轮版本需求评审与交互评审，设计阶段主动与PM进行多次进度同步，配合视觉设计与研发确保需求高效落地</li>
-        <li>设计提需：独立完成五大LLM竞品调研与MD渲染框架规范制定，迭代Prompt优化模型输出内容，撰写PRD并汇报，多次推动体验需求立项</li>
-        <li>交互设计：主导知数问答模块澄清改造、异常报错场景、数据图表优化专项等相关交互设计、交互说明撰写与汇报</li>
-        <li>AI与赋能：主动学习AI coding与Openclaw相关前沿趋势，部署同类产品"有道Lobster"可利用skills辅助设计素材整理、信息获取等工作</li>
+        <li>交互设计：参与「有数BI+知数」的4轮版本迭代，主要参与问答、助手模块的需求评审、交互设计与汇报，配合视觉与研发确保需求高效落地</li>
+        <li>设计提需：通过LLM竞调优化产品MD渲染框架，同时迭代提示词，提升输出内容阅读舒适度，自主撰写PRD并推动2次体验需求立项并上线</li>
+        <li>AI与赋能：独立进行AI coding辅助产品微动效探索，采用Codex实现单复杂场景平均用时3h，预计节省2开发人天；协助"UI-check"skill测试与迭代，通过MCP打通"设计稿-实现页面-标红走查表格"流程，提升视觉还原走查效率，平均单轮AI走查项可用率达77%</li>
       </ul>
-      <h3>北京小米移动软件有限公司-天星数科丨体验设计实习生</h3>
+      <h3 class="resume-subtitle">北京小米移动软件有限公司-天星数科丨体验设计实习生</h3>
       <ul>
         <li>设计输出：在职期间独立负责保险官网、汽车金融CRM、战投BI的需求设计；负责汽车App共借优化与钱包App金刚位频道迭代等C端业务；参与2025天星C端设计组件库迭代升级、归纳汽车运营海报模版等设计沉淀工作</li>
-        <li>设计探索：累计20次分享AIGC设计趋势与前沿设计探索笔记，其中3个工具被试用，大幅提升团队整体设计效率/扩宽AI视野</li>
+        <li>设计探索：累计20次分享AIGC设计趋势与前沿设计探索笔记，其中3个工具被试用，大幅提升团队整体设计效率/拓宽AI视野</li>
         <li>主要成果：相关设计均上线，平均还原率达90%；组件库产出约130个通用组件及相关原子；外卖频道图标改版，AB test显示UV最高增长11%；钱包-电影频道结构迭代，相关3个动效均已成功开发，主动总结AE动效导出解决办法，已纳入团队知识库</li>
       </ul>
       <div class="divider"></div>
       <h2>项目经历</h2>
-      <h3>网易知数-企业级数据分析Agent丨交互设计</h3>
-      <p>项目背景：网易数帆战略级AI产品，为各职能域提供可视化取数，工作流，AI报告等分析功能，截止目前已完成初期市场验证<br>
-      项目职责：调研五大LLM前端布局，主导问答+思维链场景Markdown渲染规范制定；制定大模型输出内容符号控制策略并提供调优prompt；协助PM完成30+异常报错场景微文案设计，并提供相关交互规则以确保用户行为闭环；负责问答输入条件的澄清改造，采用聚合表单在原有逻辑下缩短33%澄清路径，新增4个澄清场景，预计指标/模型取数解读准确率提升70%</p>
-      <h3>金保通-汽车金融CRM系统丨UI/UX设计</h3>
-      <p>项目背景：小米汽车爆单，出现跟单交付缓慢导致金融流失、续保模式变化等问题及相关需求，需进行系统迭代以维持交付压力下金融稳定<br>
-      项目职责：主要负责桌面端销售金融跟单、数据看板激励、续保线索与补录等模块的交互与体验优化，移动端相关页面设计与适配规则制定；对金保通双端120余页面进行三轮设计走查，对接技术共修复108+问题，成功保障产品新一轮快速上线</p>
-      <h3>法巴天星保险官网丨UI/UX设计</h3>
-      <p>项目背景：法巴银行、小米、大众三方合作，为实现初期曝光、优质产品宣传等目标，需进行官网设计以建立数字化财险品牌形象<br>
-      项目职责：定义设计风格，AIGC工具3小时产出百余张抽象玻璃质感场景，定稿头图×5；负责首页+信息页+各服务二级页的交互设计，相关组件使用团队指定库(ArcoD)搭建，共输出50+高保真页面；进行2轮走查约96个问题，制定走查文档协助开发提效80%以上</p>
+      <h3 class="resume-subtitle">网易知数-企业级数据分析Agent丨交互设计</h3>
+      <ul>
+        <li>项目背景：网易数帆战略级AI产品，为各职能域提供可视化取数，工作流，AI报告等分析功能，截止目前已完成初期市场验证</li>
+        <li>项目职责：调研五大LLM前端布局，主导问答+思维链场景Markdown渲染规范制定；制定大模型输出内容符号控制策略并提供调优prompt；协助PM完成30+异常报错场景微文案设计，并提供相关交互规则以确保用户行为闭环；负责问答输入条件的澄清改造，采用聚合表单在原有逻辑下缩短33%澄清路径，新增4个澄清场景，预计指标/模型取数解读准确率提升70%</li>
+      </ul>
+      <h3 class="resume-subtitle">金保通-汽车金融CRM系统丨UI/UX设计</h3>
+      <ul>
+        <li>项目背景：小米汽车爆单，出现跟单交付缓慢导致金融流失、续保模式变化等问题及相关需求，需进行系统迭代以维持交付压力下金融稳定</li>
+        <li>项目职责：主要负责桌面端销售金融跟单、数据看板激励、续保线索与补录等模块的交互与体验优化，移动端相关页面设计与适配规则制定；对金保通双端120余页面进行三轮设计走查，对接技术共修复108+问题，成功保障产品新一轮快速上线</li>
+      </ul>
+      <h3 class="resume-subtitle">法巴天星保险官网丨UI/UX设计</h3>
+      <ul>
+        <li>项目背景：法巴银行、小米、大众三方合作，为实现初期曝光、优质产品宣传等目标，需进行官网设计以建立数字化财险品牌形象</li>
+        <li>项目职责：定义设计风格，AIGC工具3小时产出百余张抽象玻璃质感场景，定稿头图×5；负责首页+信息页+各服务二级页的交互设计，相关组件使用团队指定库(ArcoD)搭建，共输出50+高保真页面；进行2轮走查约96个问题，制定走查文档协助开发提效80%以上</li>
+      </ul>
       <div class="divider"></div>
       <h2>个人优势</h2>
       <ul>
-        <li>精通Figma，可稳定输出B/C端高保真页面。具有组件库设计与应用经验、AE动效落地经验、Blender基础建模渲染动态能力等</li>
-        <li>可熟练运用即梦、Lovart等主流工具，具有AIGC落地经验+方法论沉淀；具有vibe coding能力，应用于设计方案的快速演示交流</li>
-        <li>拥有扎实的执行能力、出色的审美积累、文档与复盘能力。善于平衡用户体验、商业价值、技术限制，争做解决问题的设计师</li>
+        <li>职业技能：精通Figma，可稳定输出B/C端高保真页面。具有组件库设计与应用经验、AE动效落地经验、Blender基础建模渲染动态能力等</li>
+        <li>AI能力：具有Vibe coding能力与AI赋能业务经验；熟练运用即梦、Lovart等主流工具，具有AIGC落地经验+方法论沉淀；</li>
+        <li>自我评价：集执行、审美、创新于一体，能为团队注入鲜活力量。善于平衡用户体验、商业价值、技术限制，争做解决业务问题的设计师</li>
       </ul>
     </div>
   </div>
@@ -883,8 +1028,11 @@
     }
 
     document.addEventListener('mousemove', (e) => {
-      mouseDotX = e.clientX;
-      mouseDotY = e.clientY;
+      // Only update on desktop, not mobile
+      if (window.innerWidth > 768) {
+        mouseDotX = e.clientX;
+        mouseDotY = e.clientY;
+      }
     });
 
     window.addEventListener('resize', () => {
@@ -959,7 +1107,7 @@
       skills.forEach(skill => {
         const card = document.createElement('div');
         card.className = 'skill-card';
-        card.innerHTML = `<img src="${skill.icon}" alt="${skill.name}"><span>${skill.name}</span><div class="tooltip">${skill.desc}</div>`;
+        card.innerHTML = `<img src="${skill.icon}" alt="${skill.name}"><span>${skill.name}</span>`;
         grid.appendChild(card);
       });
     }
@@ -974,6 +1122,14 @@
           carousel.appendChild(card);
         });
       }
+      // Mobile vertical version (no repeat, only 3 items)
+      const vertical = document.getElementById('awardsVertical');
+      awards.forEach(award => {
+        const card = document.createElement('div');
+        card.className = 'award-card';
+        card.innerHTML = `${wheatLeftSVG}<div class="content"><h4>${award.name}</h4><p>${award.prize}</p></div>${wheatRightSVG}`;
+        vertical.appendChild(card);
+      });
     }
 
     function initProjectCarousel() {
@@ -986,6 +1142,15 @@
           carousel.appendChild(card);
         });
       }
+      // Mobile vertical version (no repeat, only 3 items, entire card clickable)
+      const vertical = document.getElementById('projectsVertical');
+      projects.forEach((proj, i) => {
+        const card = document.createElement('div');
+        card.className = 'project-card';
+        card.onclick = () => showWorksProject(i);
+        card.innerHTML = `<img src="${proj.cover}" alt="${proj.name}">`;
+        vertical.appendChild(card);
+      });
     }
 
     function initWorksPage() {
@@ -1020,6 +1185,8 @@
       switchPage('works');
       document.querySelectorAll('.works-nav a').forEach(a => a.classList.remove('active'));
       document.querySelector(`.works-nav a[data-project="${idx}"]`).classList.add('active');
+      document.querySelectorAll('.works-tab').forEach(a => a.classList.remove('active'));
+      document.querySelector(`.works-tab[data-project="${idx}"]`).classList.add('active');
       document.querySelectorAll('.works-section').forEach(s => s.classList.remove('active'));
       document.getElementById(`works-section-${idx}`).classList.add('active');
     }
@@ -1028,6 +1195,8 @@
       const next = (current + 1) % worksProjects.length;
       document.querySelectorAll('.works-nav a').forEach(a => a.classList.remove('active'));
       document.querySelector(`.works-nav a[data-project="${next}"]`).classList.add('active');
+      document.querySelectorAll('.works-tab').forEach(a => a.classList.remove('active'));
+      document.querySelector(`.works-tab[data-project="${next}"]`).classList.add('active');
       document.querySelectorAll('.works-section').forEach(s => s.classList.remove('active'));
       document.getElementById(`works-section-${next}`).classList.add('active');
     }
@@ -1041,7 +1210,17 @@
       document.getElementById(pageName + 'Page').classList.add('active');
       document.querySelectorAll('.nav-center a').forEach(a => a.classList.remove('active'));
       document.querySelector(`.nav-center a[data-page="${pageName}"]`).classList.add('active');
+      // Show/hide works tabs based on page
+      const worksTabs = document.getElementById('worksTabs');
+      if (pageName === 'works') {
+        worksTabs.style.display = 'flex';
+      } else {
+        worksTabs.style.display = 'none';
+      }
     }
+
+    // Initialize works tabs - hide on load
+    document.getElementById('worksTabs').style.display = 'none';
 
     function downloadPDF(filename) {
       window.open(filename, '_blank');
@@ -1077,6 +1256,17 @@
       });
     });
 
+    document.querySelectorAll('.works-tab').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const idx = parseInt(link.dataset.project);
+        document.querySelectorAll('.works-tab').forEach(a => a.classList.remove('active'));
+        link.classList.add('active');
+        document.querySelectorAll('.works-section').forEach(s => s.classList.remove('active'));
+        document.getElementById(`works-section-${idx}`).classList.add('active');
+      });
+    });
+
     resizeFlowCanvas();
     resizeDotCanvas();
     initFlowParticles();
@@ -1086,6 +1276,21 @@
     initWorksPage();
     animateFlow();
     animateDots();
+
+    // Mobile image fullscreen
+    document.querySelectorAll('.works-images img').forEach(img => {
+      img.addEventListener('click', function() {
+        if (window.innerWidth <= 768) {
+          const fullscreen = document.getElementById('imgFullscreen');
+          fullscreen.querySelector('img').src = this.src;
+          fullscreen.classList.add('active');
+        }
+      });
+    });
+
+    function closeFullscreen() {
+      document.getElementById('imgFullscreen').classList.remove('active');
+    }
   </script>
 </body>
 </html>
