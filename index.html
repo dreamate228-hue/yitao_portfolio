@@ -66,10 +66,25 @@
       font-size: 0.85rem;
       cursor: pointer;
       transition: all 0.3s ease;
+      overflow: hidden;
+    }
+    .btn-nav-contact span {
+      position: relative;
+      z-index: 1;
     }
     .btn-nav-contact:hover {
       border-color: rgba(172, 199, 245, 0.4);
       color: rgba(255, 255, 255, 0.85);
+    }
+    .btn-nav-contact:hover::before {
+      content: '';
+      position: absolute;
+      inset: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 0deg, transparent 0deg, rgba(172, 199, 245, 0.5) 60deg, rgba(244, 114, 182, 0.5) 120deg, transparent 180deg, rgba(172, 199, 245, 0.5) 240deg, transparent 360deg);
+      animation: btnRotate 4s linear infinite;
+      filter: blur(8px);
     }
     .nav a {
       color: rgba(255, 255, 255, 0.45);
@@ -596,7 +611,9 @@
       .works-tab { background: transparent; border: none; color: rgba(255, 255, 255, 0.5); font-size: 0.7rem; padding: 0.4rem 0.8rem; border-radius: 20px; transition: all 0.3s; white-space: nowrap; cursor: pointer; }
       .works-tab.active { color: #fff; background: rgba(172, 199, 245, 0.15); }
 
-    .floating-contact { display: none; }
+      /* Contact buttons - show floating icon on mobile, hide web button */
+      .btn-nav-contact { display: none; }
+      .floating-contact { display: none; }
 
       /* Floating contact button - with glow effect */
       .floating-contact { display: flex !important; position: fixed; bottom: 2rem; right: 1.5rem; z-index: 101; width: 50px; height: 50px; border-radius: 50%; background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); align-items: center; justify-content: center; cursor: pointer; overflow: hidden; }
@@ -712,6 +729,7 @@
           <a href="#" data-page="notes">沉淀小记</a>
           <a href="#" data-page="resume">我的简历</a>
         </div>
+        <button class="btn-nav-contact" onclick="goHomeAndScroll()"><span>联系我</span></button>
       </nav>
       <div class="works-tabs" id="worksTabs">
         <button class="works-tab active" data-project="0">网易知数</button>
